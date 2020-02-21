@@ -404,7 +404,7 @@ function draw() {
             bullets[1] = [];
             fill(200, 0, 200);
             textSize(40);
-            text('Ничья!!1!', 150, 100);
+            text('Ничья!!1!', 160, 100);
         }
         else if (health[0] <= 0) {
             dead = true;
