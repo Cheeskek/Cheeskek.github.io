@@ -507,6 +507,8 @@ function keyPressed() {
             bullets[1] = [];
             health[0] = 5;
             health[1] = 5;
+            speed = 0;
+            speedControl = 0;
             if (menuSelect) {
                 screen = 1;
                 choose = Math.floor(Math.random() * (3));
@@ -522,7 +524,6 @@ function keyPressed() {
             }
             else {
                 screen = 0;
-                speedControl = 0;
                 localDelta = 0;
             }
         }
@@ -546,7 +547,6 @@ function keyPressed() {
         }
         else if (screen == -1) {
             screen = 0;
-            speedControl = 0;
             localDelta = 0;
         }
         menuSelect = true;
