@@ -406,7 +406,7 @@ function draw() {
             textSize(40);
             text('Ничья!!1!', 100, 100);
         }
-        if (health[0] <= 0) {
+        else if (health[0] <= 0) {
             dead = true;
             player[0].x = -10;
             player[0].y = -10;
@@ -416,7 +416,7 @@ function draw() {
             textSize(40);
             text('Второй игрок победил!', 100, 100);
         }
-        if (health[1] <= 0) {
+        else if (health[1] <= 0) {
             dead = true;
             player[1].x = -10;
             player[1].x = -10;
