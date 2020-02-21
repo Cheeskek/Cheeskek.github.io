@@ -394,6 +394,18 @@ function draw() {
         pressed = { up: [false, false], down: [false, false], left: [false, false], right: [false, false], fireUp: [false, false], fireDown: [false, false], fireLeft: [false, false], fireRight: [false, false] };
         inv[0] = 0;
         inv[1] = 0;
+        if (health[0] <= 0 && health[1] <= 0) {
+            dead = true;
+            player[0].x = -10;
+            player[0].y = -10;
+            player[1].x = -10;
+            player[1].x = -10;
+            bullets[0] = [];
+            bullets[1] = [];
+            fill(200, 0, 200);
+            textSize(40);
+            text('Ничья!!1!', 100, 100);
+        }
         if (health[0] <= 0) {
             dead = true;
             player[0].x = -10;
