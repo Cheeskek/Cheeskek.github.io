@@ -152,9 +152,7 @@ function draw() {
                 else {
                     bullet = new Bullet(0);
                 }
-                if (player[0].powerUp != 1) {
-                    bullets[0].push(bullet);
-                }
+                bullets[0].push(bullet);
                 if (speed == 0.2) {
                     fire[0] = 35;
                 }
