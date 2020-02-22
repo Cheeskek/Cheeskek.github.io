@@ -272,6 +272,7 @@ function Bullet(num) {
 
 function Sword(num) {
     this.toDelete = false;
+    this.delCount = 0;
     this.brdXF;
     this.brdXL;
     this.brdYF;
@@ -302,22 +303,27 @@ function Sword(num) {
     }
     this.move = function () {
         for (var i = 0; i < bullets[0].length; i++) {
-            if (bullets[0][i].x <= this.brdXL && bullets[0][i] >= this.brdXF && bullets[0][i].y <= this.brdYL && bullets[0][i].y >= this.brdYF) {
+            if (((this.brdXF >= bullets[0][i].x - 4 && this.brdXF <= bullets[0][i].x + 4) || (this.brdXL >= bullets[0][i].x - 4 && this.brdXL <= bullets[0][i].x + 4)) && ((this.brdYF >= bullets[0][i].y - 4 && this.brdYF <= bullets[0][i].y + 4) || (this.brdYL >= bullets[0][i].y - 4 && this.brdYL <= bullets[0][i].y + 4))) {
                 bullets[0][i].toDelete = true;
             }
         }
         for (var i = 0; i < bullets[1].length; i++) {
-            if (bullets[1][i].x <= this.brdXL && bullets[1][i] >= this.brdXF && bullets[1][i].y <= this.brdYL && bullets[1][i].y >= this.brdYF) {
+            if (((this.brdXF >= bullets[1][i].x - 4 && this.brdXF <= bullets[1][i].x + 4) || (this.brdXL >= bullets[1][i].x - 4 && this.brdXL <= bullets[1][i].x + 4)) && ((this.brdYF >= bullets[1][i].y - 4 && this.brdYF <= bullets[1][i].y + 4) || (this.brdYL >= bullets[1][i].y - 4 && this.brdYL <= bullets[1][i].y + 4))) {
                 bullets[1][i].toDelete = true;
             }
         }
         var op = (num == 0) ? (1) : (0);
         if ((player[op].x >= this.brdXF && player[op].x <= this.brdXL) || (player[op].x + 10 >= this.brdXF && player[op].x + 10 <= this.brdXL)) {
             if ((player[op].y >= this.brdYF && player[op].y <= this.brdYL) || (player[op].y + 10 >= this.brdYF && player[op].y + 10 <= this.brdYL)) {
-                player[op].hit();
+                if (inv[op] == 0) {
+                    player[op].hit();
+                }
             }
         }
-        this.toDelete = true;
+        this.delCount++;
+        if (this.delCount == 5) {
+            this.toDelete = true;
+        }
     }
     this.show = function () {
         fill(255);
