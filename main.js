@@ -22,7 +22,7 @@ function preload() {
     sounds.select = loadSound("source/select.wav");
     sounds.enter = loadSound("source/enter.wav");
     sounds.escape = loadSound("source/escape.wav");
-    //sounds.boom = loadSound("source/boom.wav");
+    sounds.change = loadSound("source/change.wav");
 }
 
 function Wall(x, y) {
@@ -125,7 +125,7 @@ function Player(x, y, num) {
         var plX = this.x, plY = this.y;
         if (pressed.up[num]) {
             if (plY >= 5) {
-                plY -= 5 * speed * (deltaTime / 20);
+                plY -= 5 * speed;
             }
             else {
                 plY = 585;
@@ -133,7 +133,7 @@ function Player(x, y, num) {
         }
         if (pressed.down[num]) {
             if (plY <= 585) {
-                plY += 5 * speed * (deltaTime / 20);
+                plY += 5 * speed;
             }
             else {
                 plY = 5;
@@ -141,7 +141,7 @@ function Player(x, y, num) {
         }
         if (pressed.left[num]) {
             if (plX >= 5) {
-                plX -= 5 * speed * (deltaTime / 20);
+                plX -= 5 * speed;
             }
             else {
                 plX = 585;
@@ -149,7 +149,7 @@ function Player(x, y, num) {
         }
         if (pressed.right[num]) {
             if (plX <= 585) {
-                plX += 5 * speed * (deltaTime / 20);
+                plX += 5 * speed;
             }
             else {
                 plX = 5;
@@ -202,7 +202,7 @@ function Player(x, y, num) {
 }
 
 function Bullet(num) {
-    var dirLoc = dir[num];
+    this.dirLoc = dir[num];
     var gone = 0;
     this.x = bulX[num];
     this.y = bulY[num];
@@ -212,18 +212,18 @@ function Bullet(num) {
         ellipse(this.x, this.y, 8, 8);
     }
     this.move = function () {
-        switch (dirLoc) {
+        switch (this.dirLoc) {
             case 'up':
-                this.y -= 10 * speed * (deltaTime / 20);
+                this.y -= 7 * speed;
                 break;
             case 'down':
-                this.y += 10 * speed * (deltaTime / 20);
+                this.y += 7 * speed;
                 break;
             case 'left':
-                this.x -= 10 * speed * (deltaTime / 20);
+                this.x -= 7 * speed;
                 break;
             case 'right':
-                this.x += 10 * speed * (deltaTime / 20);
+                this.x += 7 * speed;
                 break;
         }
         this.toDelete = (this.x < 0 || this.x > 600 || this.y < 0 || this.y > 600);
@@ -271,6 +271,7 @@ function Bullet(num) {
 }
 
 function Sword(num) {
+    sounds.shoot.play();
     this.toDelete = false;
     this.delCount = 0;
     this.brdXF;
@@ -279,49 +280,67 @@ function Sword(num) {
     this.brdYL;
     if (dir[num] == 'up') {
         this.brdXF = player[num].x - 10;
-        this.brdXL = player[num].x + 10;
-        this.brdYF = player[num].y - 15;
-        this.brdYL = player[num].y;
+        this.brdXL = player[num].x + 20;
+        this.brdYF = player[num].y - 10;
+        this.brdYL = player[num].y + 10;
     }
     else if (dir[num] == 'down') {
         this.brdXF = player[num].x - 10;
-        this.brdXL = player[num].x + 10;
+        this.brdXL = player[num].x + 20;
         this.brdYF = player[num].y;
-        this.brdYL = player[num].y + 15;
+        this.brdYL = player[num].y + 25;
     }
     else if (dir[num] == 'left') {
         this.brdYF = player[num].y - 10;
-        this.brdYL = player[num].y + 10;
-        this.brdXF = player[num].x - 15;
-        this.brdXL = player[num].x;
+        this.brdYL = player[num].y + 20;
+        this.brdXF = player[num].x - 10;
+        this.brdXL = player[num].x + 10;
     }
     else {
         this.brdYF = player[num].y - 10;
-        this.brdYL = player[num].y + 10;
+        this.brdYL = player[num].y + 20;
         this.brdXF = player[num].x;
-        this.brdXL = player[num].x + 15;
+        this.brdXL = player[num].x + 25;
     }
     this.move = function () {
-        for (var i = 0; i < bullets[0].length; i++) {
-            if (((this.brdXF >= bullets[0][i].x - 4 && this.brdXF <= bullets[0][i].x + 4) || (this.brdXL >= bullets[0][i].x - 4 && this.brdXL <= bullets[0][i].x + 4)) && ((this.brdYF >= bullets[0][i].y - 4 && this.brdYF <= bullets[0][i].y + 4) || (this.brdYL >= bullets[0][i].y - 4 && this.brdYL <= bullets[0][i].y + 4))) {
-                bullets[0][i].toDelete = true;
-            }
-        }
-        for (var i = 0; i < bullets[1].length; i++) {
-            if (((this.brdXF >= bullets[1][i].x - 4 && this.brdXF <= bullets[1][i].x + 4) || (this.brdXL >= bullets[1][i].x - 4 && this.brdXL <= bullets[1][i].x + 4)) && ((this.brdYF >= bullets[1][i].y - 4 && this.brdYF <= bullets[1][i].y + 4) || (this.brdYL >= bullets[1][i].y - 4 && this.brdYL <= bullets[1][i].y + 4))) {
-                bullets[1][i].toDelete = true;
-            }
-        }
         var op = (num == 0) ? (1) : (0);
-        if ((player[op].x >= this.brdXF && player[op].x <= this.brdXL) || (player[op].x + 10 >= this.brdXF && player[op].x + 10 <= this.brdXL)) {
-            if ((player[op].y >= this.brdYF && player[op].y <= this.brdYL) || (player[op].y + 10 >= this.brdYF && player[op].y + 10 <= this.brdYL)) {
-                if (inv[op] == 0) {
-                    player[op].hit();
+        for (var i = 0; i < bullets[op].length; i++) {
+            if (bullets[op][i].x >= this.brdXF && bullets[op][i].x <= this.brdXL && bullets[op][i].y >= this.brdYF - 5 && bullets[op][i].y <= this.brdYL + 5) {
+                if (bullets[op][i].dirLoc == 'up') {
+                    bullets[op][i].dirLoc = 'down';
+                }
+                else if (bullets[op][i].dirLoc == 'down') {
+                    bullets[op][i].dirLoc = 'up';
+                }
+                else if (bullets[op][i].dirLoc == 'left') {
+                    bullets[op][i].dirLoc = 'right';
+                }
+                else {
+                    bullets[op][i].dirLoc = 'left';
                 }
             }
         }
-        this.delCount++;
-        if (this.delCount == 5) {
+        for (var i = 0; i < bullets[num].length; i++) {
+            if (bullets[num][i].x >= this.brdXF && bullets[num][i].x <= this.brdXL && bullets[num][i].y >= this.brdYF - 5 && bullets[num][i].y <= this.brdYL + 5) {
+                if (bullets[num][i].dirLoc == 'up') {
+                    bullets[num][i].dirLoc = 'down';
+                }
+                else if (bullets[num][i].dirLoc == 'down') {
+                    bullets[num][i].dirLoc = 'up';
+                }
+                else if (bullets[num][i].dirLoc == 'left') {
+                    bullets[num][i].dirLoc = 'right';
+                }
+                else {
+                    bullets[num][i].dirLoc = 'left';
+                }
+            }
+        }
+        if (player[op].x >= this.brdXF - 5 && player[op].x <= this.brdXL + 5 && player[op].y >= this.brdYF - 5 && player[op].y <= this.brdYL + 5 && this.delCount == 0) {
+            player[op].hit();
+        }
+        this.delCount += speed;
+        if (this.delCount >= 3) {
             this.toDelete = true;
         }
     }
@@ -519,6 +538,26 @@ var onPress = function (event) {
             if (health[0] != 0)
                 pressed.fireRight[1] = state;
             break;
+    }
+    if (event.type == 'keydown') {
+        if (event.keyCode == 16 && event.location == 1) {
+            if (player[0].powerUp == 0) {
+                player[0].powerUp = 1;
+            }
+            else {
+                player[0].powerUp = 0;
+            }
+            sounds.change.play();
+        }
+        if (event.keyCode == 17 && event.location == 2) {
+            if (player[1].powerUp == 0) {
+                player[1].powerUp = 1;
+            }
+            else {
+                player[1].powerUp = 0;
+            }
+            sounds.change.play();
+        }
     }
 }
 

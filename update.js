@@ -142,17 +142,24 @@ function draw() {
                 bulX[0] = player[0].x + 5;
                 bulY[0] = player[0].y + 5;
                 var bullet;
+                var shft = false;
                 if (player[0].powerUp == -1) {
                     bullet = new WideBullet(0);
                 }
                 else if (player[0].powerUp == 1) {
                     player[0].swordRight = (player[0].swordRight) ? (false) : (true);
                     bullet = new Sword(0);
+                    shft = true;
                 }
                 else {
                     bullet = new Bullet(0);
                 }
-                bullets[0].push(bullet);
+                if (shft) {
+                    bullets[0].unshift(bullet)
+                }
+                else {
+                    bullets[0].push(bullet);
+                }
                 if (speed == 0.2) {
                     fire[0] = 35;
                 }
@@ -165,17 +172,24 @@ function draw() {
                 bulX[0] = player[0].x + 5;
                 bulY[0] = player[0].y + 5;
                 var bullet;
+                var shft = false;
                 if (player[0].powerUp == -1) {
                     bullet = new WideBullet(0);
                 }
                 else if (player[0].powerUp == 1) {
                     player[0].swordRight = (player[0].swordRight) ? (false) : (true);
                     bullet = new Sword(0);
+                    shft = true;
                 }
                 else {
                     bullet = new Bullet(0);
                 }
-                bullets[0].push(bullet);
+                if (shft) {
+                    bullets[0].unshift(bullet);
+                }
+                else {
+                    bullets[0].push(bullet);
+                }
                 if (speed == 0.2) {
                     fire[0] = 35;
                 }
@@ -188,17 +202,24 @@ function draw() {
                 bulX[0] = player[0].x + 5;
                 bulY[0] = player[0].y + 5;
                 var bullet;
+                var shft = false;
                 if (player[0].powerUp == -1) {
                     bullet = new WideBullet(0);
                 }
                 else if (player[0].powerUp == 1) {
                     player[0].swordRight = (player[0].swordRight) ? (false) : (true);
                     bullet = new Sword(0);
+                    shft = true;
                 }
                 else {
                     bullet = new Bullet(0);
                 }
-                bullets[0].push(bullet);
+                if (shft) {
+                    bullets[0].unshift(bullet);
+                }
+                else {
+                    bullets[0].push(bullet);
+                }
                 if (speed == 0.2) {
                     fire[0] = 35;
                 }
@@ -211,17 +232,24 @@ function draw() {
                 bulX[0] = player[0].x + 5;
                 bulY[0] = player[0].y + 5;
                 var bullet;
+                var shft = false;
                 if (player[0].powerUp == -1) {
                     bullet = new WideBullet(0);
                 }
                 else if (player[0].powerUp == 1) {
                     player[0].swordRight = (player[0].swordRight) ? (false) : (true);
                     bullet = new Sword(0);
+                    shft = true;
                 }
                 else {
                     bullet = new Bullet(0);
                 }
-                bullets[0].push(bullet);
+                if (shft) {
+                    bullets[0].unshift(bullet);
+                }
+                else {
+                    bullets[0].push(bullet);
+                }
                 if (speed == 0.2) {
                     fire[0] = 35;
                 }
@@ -471,6 +499,7 @@ function keyPressed() {
             screen = 1;
         }
         if (screen > 0) {
+            sounds.win.stop();
             sounds.escape.play();
         }
         menuSelect = true;
@@ -486,6 +515,7 @@ function keyPressed() {
             if (screen != -1) {
                 sounds.select.stop();
                 sounds.escape.stop();
+                sounds.win.stop();
                 sounds.select.play();
             }
         }
@@ -494,6 +524,7 @@ function keyPressed() {
         if (screen != 1) {
             sounds.select.stop();
             sounds.escape.stop();
+            sounds.win.stop();
             sounds.enter.play();
         }
         if (screen == 2 || screen == 3) {
