@@ -44,7 +44,7 @@ function Player(x, y, num) {
         sounds.shoot.stop();
         sounds.damage.play();
         health[num]--;
-        inv[num] = 15;
+        inv[num] = 30;
     }
     this.show = function () {
         if (inv[num] == 0) {
